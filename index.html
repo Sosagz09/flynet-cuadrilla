@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte Cuadrilla</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --green:#25d366;--green-dark:#128c7e;--accent:#00a884;
+  --p:#1c2733;--pt:#e9edef;--pm:#8696a0;--pb:#2a3942;--pi:#2a3942;
+  --red:#ff4d6d;
+}
+body{font-family:'DM Sans',sans-serif;background:#f0f2f5;min-height:100vh;display:grid;grid-template-columns:400px 1fr;grid-template-rows:100vh;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{background:var(--p);display:flex;flex-direction:column;overflow:hidden;position:relative;}
+.s-head{padding:24px 24px 18px;border-bottom:1px solid var(--pb);flex-shrink:0;}
+.s-head h1{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--pt);letter-spacing:-.02em;}
+.s-head p{font-size:12px;color:var(--pm);margin-top:3px;}
+.s-body{flex:1;overflow-y:auto;padding:20px 20px 130px;scrollbar-width:thin;scrollbar-color:var(--pb) transparent;}
+.flabel{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--pm);margin-bottom:5px;display:block;font-weight:500;}
+input[type=text],textarea{width:100%;background:var(--pi);border:1px solid var(--pb);border-radius:8px;padding:10px 13px;color:var(--pt);font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:border-color .2s;resize:none;}
+input[type=text]:focus,textarea:focus{border-color:var(--green);}
+textarea{min-height:76px;line-height:1.65;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fg{margin-bottom:16px;}
+.div{height:1px;background:var(--pb);margin:20px 0;}
+.sec-lbl{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--green);margin-bottom:14px;display:flex;align-items:center;gap:8px;font-weight:600;}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--pb);}
+.sec-card{background:rgba(255,255,255,.04);border:1px solid var(--pb);border-radius:10px;padding:14px;margin-bottom:12px;transition:border-color .2s;}
+.sec-card:hover{border-color:#3d4f5c;}
+.sec-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+
+/* Emoji input — small square, centered text */
+.emoji-input{
+  width:40px;flex-shrink:0;padding:4px;text-align:center;
+  font-size:18px;line-height:1;border-radius:8px;
+  background:var(--pi);border:1px solid var(--pb);color:var(--pt);
+  cursor:text;
+}
+.emoji-input:focus{border-color:var(--green);}
+
+.sec-ti{flex:1;background:transparent;border:none;border-bottom:1px solid var(--pb);border-radius:0;padding:2px 4px;font-size:13px;font-weight:500;color:var(--pt);outline:none;font-family:'DM Sans',sans-serif;}
+.sec-ti:focus{border-bottom-color:var(--green);}
+.del-btn{width:26px;height:26px;border-radius:50%;border:none;background:rgba(255,77,109,.12);color:var(--red);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .15s;flex-shrink:0;}
+.del-btn:hover{background:rgba(255,77,109,.25);}
+.add-btn{width:100%;background:transparent;border:1px dashed var(--pb);border-radius:10px;padding:11px;color:var(--pm);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.add-btn:hover{border-color:var(--green);color:var(--green);}
+.s-foot{position:absolute;bottom:0;left:0;width:100%;background:var(--p);border-top:1px solid var(--pb);padding:16px 20px;display:flex;gap:10px;}
+.btn-copy{flex:1;background:var(--green);color:#000;border:none;border-radius:10px;padding:13px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:.04em;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px;}
+.btn-copy:hover{background:#1db954;transform:translateY(-1px);}
+.btn-copy:active{transform:translateY(0);}
+.btn-rst{background:var(--pi);border:1px solid var(--pb);color:var(--pm);border-radius:10px;padding:13px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .15s;}
+.btn-rst:hover{border-color:var(--red);color:var(--red);}
+.today-btn{background:var(--pi);border:1px solid var(--pb);color:var(--pm);border-radius:8px;padding:0 14px;cursor:pointer;font-size:12px;white-space:nowrap;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.today-btn:hover{color:var(--green);border-color:var(--green);}
+
+/* PREVIEW */
+.preview{background:#efeae2 url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c8bfb0' fill-opacity='0.3'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");display:flex;flex-direction:column;overflow:hidden;}
+.wa-bar{background:#202c33;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.wa-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-dark));display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.wa-info{flex:1;}
+.wa-n{font-size:14px;color:#e9edef;font-weight:500;}
+.wa-s{font-size:11px;color:#8696a0;}
+.wa-ic{color:#aebac1;font-size:18px;display:flex;gap:20px;}
+.p-scroll{flex:1;overflow-y:auto;padding:24px 60px 24px 24px;display:flex;flex-direction:column;justify-content:flex-end;}
+.bwrap{display:flex;flex-direction:column;align-items:flex-start;}
+.bubble{background:#fff;border-radius:0 12px 12px 12px;padding:14px 16px 10px;max-width:390px;box-shadow:0 1px 4px rgba(0,0,0,.15);position:relative;}
+.bubble::before{content:'';position:absolute;top:0;left:-8px;width:0;height:0;border-right:8px solid #fff;border-bottom:8px solid transparent;}
+.bmeta{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:8px;}
+.btime{font-size:11px;color:#667781;}
+.bchecks{color:var(--accent);font-size:13px;}
+.rpt{font-family:-apple-system,'Segoe UI',sans-serif;font-size:14px;color:#111b21;line-height:1.55;}
+.r-rule{font-size:11.5px;color:#b5c0c8;letter-spacing:.06em;margin:3px 0;}
+.r-bigtitle{font-weight:800;font-size:15.5px;color:#111b21;letter-spacing:.01em;}
+.r-date{font-style:italic;color:#667781;font-size:13px;margin:5px 0 10px;}
+.r-namebox{margin-bottom:10px;}
+.r-sup{font-size:15px;font-weight:700;font-style:italic;color:#111b21;}
+.r-tec{font-size:14px;font-weight:600;color:#111b21;}
+.r-sec{margin-bottom:9px;}
+.r-sec-title{font-weight:700;font-size:14px;color:#111b21;margin-bottom:2px;}
+.r-item{font-size:13px;color:#3b4a54;line-height:1.6;}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:#111b21;color:#25d366;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;padding:11px 28px;border-radius:100px;border:1px solid #25d366;opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+@media(max-width:800px){body{grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow:auto;}.sidebar{height:auto;overflow:visible;}.s-body{padding-bottom:140px;}.s-foot{width:100%;}.preview{height:80vh;}.p-scroll{padding:20px;}}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="s-head">
+    <h1>Reporte Cuadrilla 👨‍🔧</h1>
+    <p>Edita • borra secciones • copia</p>
+  </div>
+  <div class="s-body">
+    <div class="fg">
+      <span class="flabel">Fecha</span>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="fecha" placeholder="05/04/26" oninput="render()">
+        <button class="today-btn" onclick="setToday()">Hoy</button>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="fg">
+        <span class="flabel">Supervisor 👑</span>
+        <input type="text" id="supervisor" placeholder="Daniel Sosa" oninput="render()">
+      </div>
+      <div class="fg">
+        <span class="flabel">Técnico 🔧</span>
+        <input type="text" id="tecnico" placeholder="Kevin Martínez" oninput="render()">
+      </div>
+    </div>
+    <div class="div"></div>
+    <div class="sec-lbl">Secciones</div>
+    <div id="sec-container"></div>
+    <button class="add-btn" onclick="addSection()"><span style="font-size:16px;">＋</span> Agregar sección</button>
+  </div>
+  <div class="s-foot">
+    <button class="btn-copy" onclick="copyReport()">📋 Copiar para WhatsApp</button>
+    <button class="btn-rst" onclick="resetAll()" title="Limpiar todo">↺</button>
+  </div>
+</div>
+
+<div class="preview">
+  <div class="wa-bar">
+    <div class="wa-av">👨‍🔧</div>
+    <div class="wa-info"><div class="wa-n">Cuadrilla Técnica</div><div class="wa-s">en línea</div></div>
+    <div class="wa-ic">📞 ⋮</div>
+  </div>
+  <div class="p-scroll">
+    <div class="bwrap">
+      <div class="bubble">
+        <div class="rpt" id="preview-content"></div>
+        <div class="bmeta"><span class="btime" id="btime"></span><span class="bchecks">✓✓</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ COPIADO</div>
+
+<script>
+const BOLD_IN  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+const BOLD_OUT = [...'𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳'];
+const BI_IN    = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+const BI_OUT   = [...'𝘼𝘽𝘾𝘿𝙀𝙁𝙂𝙃𝙄𝙅𝙆𝙇𝙈𝙉𝙊𝙋𝙌𝙍𝙎𝙏𝙐𝙑𝙒𝙓𝙔𝙕𝙖𝙗𝙘𝙙𝙚𝙛𝙜𝙝𝙞𝙟𝙠𝙡𝙢𝙣𝙤𝙥𝙦𝙧𝙨𝙩𝙪𝙫𝙬𝙭𝙮𝙯'];
+function toBold(s){ return s.split('').map(c=>{ const i=BOLD_IN.indexOf(c); return i>=0?BOLD_OUT[i]:c; }).join(''); }
+function toBI(s){   return s.split('').map(c=>{ const i=BI_IN.indexOf(c);   return i>=0?BI_OUT[i]:c;   }).join(''); }
+
+let sections = [
+  {id:1, icon:'🛜',  title:'Soporte de Internet',       names:'Karla Lisseth Rodriguez Rivera\nPedro Antonio Rodríguez López\nAgustín de Jesús Mazariego Girón'},
+  {id:2, icon:'⚠️', title:'Mantenimiento Preventivo',   names:'Bryan Alberto García Jiménez'},
+  {id:3, icon:'❌',  title:'Cancelados',                 names:'César Oswaldo Álvarez Moza'},
+  {id:4, icon:'🏝️', title:'Visitas no encontradas 🤷‍♂️', names:'Yanira del Carmen Figueroa'},
+];
+let nextId = 5;
+
+function renderSections(){
+  const c = document.getElementById('sec-container');
+  c.innerHTML = '';
+  sections.forEach(sec => {
+    const d = document.createElement('div');
+    d.className = 'sec-card';
+    d.innerHTML = `
+      <div class="sec-top">
+        <input class="emoji-input" type="text" value="${sec.icon}"
+          oninput="upSec(${sec.id},'icon',this.value)"
+          title="Escribe o pega tu emoji aquí">
+        <input class="sec-ti" type="text" value="${sec.title.replace(/"/g,'&quot;')}"
+          oninput="upSec(${sec.id},'title',this.value)" placeholder="Nombre de sección">
+        <button class="del-btn" onclick="delSec(${sec.id})">✕</button>
+      </div>
+      <textarea oninput="upSec(${sec.id},'names',this.value)"
+        placeholder="Un nombre por línea">${sec.names}</textarea>`;
+    c.appendChild(d);
+  });
+}
+
+function upSec(id, f, v){ const s=sections.find(x=>x.id===id); if(s){s[f]=v; render();} }
+function delSec(id){ sections=sections.filter(s=>s.id!==id); renderSections(); render(); }
+function addSection(){
+  sections.push({id:nextId++, icon:'📌', title:'Nueva sección', names:''});
+  renderSections(); render();
+  setTimeout(()=>{
+    const inputs = document.querySelectorAll('.emoji-input');
+    const last = inputs[inputs.length-1];
+    last.focus(); last.select();
+  }, 60);
+}
+
+function buildText(){
+  const fecha = document.getElementById('fecha').value.trim() || 'DD/MM/AA';
+  const sup   = document.getElementById('supervisor').value.trim();
+  const tec   = document.getElementById('tecnico').value.trim();
+  const lines = [];
+  lines.push(`━━━━━━━━━━━━━━━━━━━━`);
+  lines.push(`🔧 *REPORTE CUADRILLA* 👨‍🔧`);
+  lines.push(`━━━━━━━━━━━━━━━━━━━━`);
+  lines.push(`📅 _${fecha}_`);
+  lines.push(``);
+  if(sup) lines.push(toBI(sup));
+  if(tec) lines.push(toBold(tec));
+  sections.forEach(sec => {
+    const ns = sec.names.split('\n').map(n=>n.trim()).filter(Boolean);
+    if(!ns.length && !sec.title) return;
+    lines.push(``);
+    lines.push(`┌ *${sec.icon} ${sec.title}*`);
+    ns.forEach((n,i) => lines.push(`${i===ns.length-1?'└':'├'} ${n}`));
+  });
+  lines.push(``);
+  lines.push(`━━━━━━━━━━━━━━━━━━━━`);
+  return lines.join('\n');
+}
+
+function render(){
+  const fecha = document.getElementById('fecha').value.trim() || 'DD/MM/AA';
+  const sup   = document.getElementById('supervisor').value.trim();
+  const tec   = document.getElementById('tecnico').value.trim();
+  let html = '';
+  html += `<div class="r-rule">━━━━━━━━━━━━━━━━━━</div>`;
+  html += `<div class="r-bigtitle">🔧 REPORTE CUADRILLA 👨‍🔧</div>`;
+  html += `<div class="r-rule">━━━━━━━━━━━━━━━━━━</div>`;
+  html += `<div class="r-date">📅 ${fecha}</div>`;
+  if(sup||tec){
+    html += `<div class="r-namebox">`;
+    if(sup) html += `<div class="r-sup">${sup}</div>`;
+    if(tec) html += `<div class="r-tec">${tec}</div>`;
+    html += `</div>`;
+  }
+  sections.forEach(sec => {
+    const ns = sec.names.split('\n').map(n=>n.trim()).filter(Boolean);
+    if(!ns.length && !sec.title) return;
+    html += `<div class="r-sec">`;
+    html += `<div class="r-sec-title">${sec.icon} ${sec.title}</div>`;
+    ns.forEach((n,i) => { html += `<div class="r-item">${i===ns.length-1?'└':'├'} ${n}</div>`; });
+    html += `</div>`;
+  });
+  html += `<div class="r-rule" style="margin-top:4px;">━━━━━━━━━━━━━━━━━━</div>`;
+  document.getElementById('preview-content').innerHTML = html;
+  const now = new Date();
+  document.getElementById('btime').textContent = now.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+}
+
+function copyReport(){
+  navigator.clipboard.writeText(buildText()).then(()=>{
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 2000);
+  });
+}
+
+function resetAll(){
+  if(!confirm('¿Limpiar todo?')) return;
+  document.getElementById('supervisor').value='';
+  document.getElementById('tecnico').value='';
+  document.getElementById('fecha').value='';
+  sections=[]; renderSections(); render();
+}
+
+function setToday(){
+  const now = new Date();
+  const d = String(now.getDate()).padStart(2,'0');
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const y = String(now.getFullYear()).slice(2);
+  document.getElementById('fecha').value = `${d}/${m}/${y}`;
+  render();
+}
+
+document.getElementById('supervisor').value = 'Daniel Sosa';
+document.getElementById('tecnico').value = 'Kevin Martínez';
+setToday(); renderSections(); render();
+['supervisor','tecnico','fecha'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+</script>
+</body>
+</html>
