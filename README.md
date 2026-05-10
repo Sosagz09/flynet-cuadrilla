@@ -1,6 +1,6 @@
 # 📱 Flynet Cuadrilla
 
-> Generador de reportes diarios para técnicos de campo — Brigada Occidente
+> Generador de reportes diarios para técnicos de campo
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/placeholder/deploy-status)](https://flynet-rpt.netlify.app)
 ![Version](https://img.shields.io/badge/version-4.0-25d366?style=flat)
@@ -10,7 +10,7 @@
 
 ## ¿Qué es?
 
-App web móvil para técnicos de campo de **Flynet Brigada Occidente**. Permite registrar visitas conforme avanza el día y generar un reporte formateado listo para enviar al grupo de WhatsApp — sin tener que recordar nombres al final del turno.
+App web móvil para técnicos de campo. Permite registrar visitas conforme avanza el día y generar un reporte formateado listo para enviar al grupo de WhatsApp — sin tener que recordar nombres al final del turno.
 
 **🔗 Live:** [flynet-rpt.netlify.app](https://flynet-rpt.netlify.app)
 
@@ -96,5 +96,5 @@ Cualquier push a `main` actualiza la app en producción en menos de 30 segundos.
 
 ## 👤 Autor
 
-**Daniel Sosa** — Flynet Brigada Occidente  
+**Daniel Sosa** — Soporte Técnico e infraestructura  
 Técnico de campo · Redes · Fibra óptica · Mikrotik · Cisco
