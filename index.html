@@ -500,9 +500,9 @@ function buildText(){
   });
 
   const L=[];
-  L.push('━━━');
+  L.push('━━━━━━━━━━━━━━━━━');
   L.push('🔧 *REPORTE CUADRILLA* 👨\u200d🔧');
-  L.push('━━');
+  L.push('━━━━━━━━━━━━━━━━━');
   L.push(`📅 _${fecha}_`);
   L.push('');
   if(sup) L.push(`*${toBD(sup)}*`);
@@ -519,7 +519,7 @@ function buildText(){
       L.push(`${i===entries.length-1?'└':'├'}${line}`);
     });
   });
-  L.push('━━');
+  L.push('━━━━━━━━━━━━━━━━━');
   return L.join('\n');
 }
 
