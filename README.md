@@ -2,7 +2,7 @@
 
 > Generador de reportes diarios para técnicos de campo
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/placeholder/deploy-status)](https://flynet-rpt.netlify.app)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d7345d9a-ed08-470d-8077-0d356a9a12b7/deploy-status)](https://flynet-rpt.netlify.app)
 ![Version](https://img.shields.io/badge/version-4.0-25d366?style=flat)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat)
 
